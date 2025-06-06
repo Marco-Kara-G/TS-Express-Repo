@@ -1,4 +1,6 @@
 import express, { Request, Response } from "express";
+import { userDataCheck } from "./check/reqChecks";
+import { User } from "./user/user";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -11,9 +13,9 @@ app.get("/", (req: Request, res: Response) => {
 
 app.post("/post", (req: Request, res: Response) => {
   try {
-    const data = req.body;
-
-    const category = data.category.toLowerCase() === "male" ? "Boy" : "Girl";
+    const data: User = userDataCheck(req.body);
+    const category: string =
+      data.category.toLowerCase() === "male" ? "Boy" : "Girl";
     res.status(200).json({
       message: "###POST REQUEST DONE###",
       content: data,
